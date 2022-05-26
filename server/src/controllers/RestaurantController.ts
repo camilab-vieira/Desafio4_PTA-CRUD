@@ -23,11 +23,11 @@ export default class RestaurantController implements Crud {
 
     async delete(request: Request, response: Response){
         const { id } = request.params;
-        const {value: userFound, message} = await Citi.findByID(Restaurant, id);
+        const {value: restaurantFound, message} = await Citi.findByID(Restaurant, id);
 
-        if(!userFound) return response.status(400).send({ message });
+        if(!restaurantFound) return response.status(400).send({ message });
 
-        const {httpStatus, messageFromDelete } = await Citi.deleteValue(Restaurant, userFound);
+        const {httpStatus, messageFromDelete } = await Citi.deleteValue(Restaurant, restaurantFound);
         return response.status(httpStatus).send({ messageFromDelete });
     }
 
@@ -38,9 +38,9 @@ export default class RestaurantController implements Crud {
         const isAnyUndefined = Citi.areValuesUndefined(name, address, typeOfFood, id);
         if(isAnyUndefined) return response.status(400).send();
 
-        const userWithUpdatedValues = { name, address, typeOfFood };
+        const restaurantWithUpdatedValues = { name, address, typeOfFood };
 
-        const { httpStatus, messageFromUpdate } = await Citi.updateValue(Restaurant, id,userWithUpdatedValues);
+        const { httpStatus, messageFromUpdate } = await Citi.updateValue(Restaurant, id, restaurantWithUpdatedValues);
         return response.status(httpStatus).send({ messageFromUpdate });
     }
 
